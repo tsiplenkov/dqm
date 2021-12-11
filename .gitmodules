@@ -1,0 +1,3 @@
+[submodule "dqm_auth_service"]
+	path = dqm_auth_service
+	url = git@github.com:tsiplenkov/dqm_auth_service.git
