@@ -1,0 +1,48 @@
+## Overview 
+
+**This is boilerplate project. Code may contain bugs and vulnerabilities. Not recommended for use in a production stage.**
+
+Deployment quality monitoring - selfhost-based service for improve deploy quality web-services.
+
+### Structure
+
+![dqm_structure](img/dqm_structure.jpg)
+
+* Api Gateway ([Kong](https://konghq.com/kong/)) with DB (Postgres)
+* Auth service (Django-restframework) with DB (Postgres)
+* Task manager service (FastApi + celery) with AMQP DB (Redis)
+    * Task PageSpeed service (Celery + httpx)
+    * Task crawler service (Celery + httpx)
+    * Task API Test service (Celery + httpx)
+* Temporary proxy server (Nginx)
+* Report Manager service (FastApi) with DB (MongoDB)
+
+### How it work
+
+1. User registered and auth on **auth service**
+2. User create task for testing his service (for example PageSpeed test)
+    1. **Task manager service** create request for testing to AMQP DB
+    2. (Optionaly) Create **temporary proxy server** to client stage 
+    3. **PageSpeed worker** get task from AMQP DB and create request to Google PageSpeed API for testing
+    4. **PageSpeed wokrer** get response from Google PageSpeed API and send report to **Report manager service**
+3. User request a report from "Report manager service"
+
+### What should be done
+
+* Api Gateway
+    * ~~Proxy as subdomain~~
+    * Proxy as url path
+* Auth service
+    * Fix swagger docs view with proxy path Api gateway
+    * Integrate auth to Api gateway
+* ~~Task manager~~
+    * ~~Create task~~
+    * ~~Get task status~~
+* PageSpeed worker
+    * ~~Send request to Google PageSpeed API~~
+    * Check Exeption
+* Web Crawler worker
+    * Check non-200 status code
+* Api test worker
+* Proxy service
+* Report manager service
