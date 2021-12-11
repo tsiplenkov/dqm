@@ -7,6 +7,7 @@ Deployment quality monitoring - selfhost-based service for improve deploy qualit
 > This project use [git submodule](https://git-scm.com/docs/git-submodule) for join all services in single repo. For clone all services run:
 ```shell
 git clone https://github.com/tsiplenkov/dqm
+cd dqm
 git submodule init
 git submodule update
 ```
