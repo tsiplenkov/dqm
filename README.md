@@ -46,11 +46,11 @@ git submodule update
 * ~~Task manager~~
     * ~~Create task~~
     * ~~Get task status~~
-* PageSpeed worker
+* PageSpeed task worker
     * ~~Send request to Google PageSpeed API~~
     * Check Exeption
-* Web Crawler worker
+* Web Crawler task worker
     * Check non-200 status code
-* Api test worker
+* Api testing task worker
 * Proxy service
 * Report manager service

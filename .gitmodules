@@ -1,3 +1,15 @@
 [submodule "dqm_auth_service"]
 	path = dqm_auth_service
 	url = git@github.com:tsiplenkov/dqm_auth_service.git
+[submodule "dqm_task_worker_pagespeed"]
+	path = dqm_task_worker_pagespeed
+	url = git@github.com:tsiplenkov/dqm_task_worker_pagespeed.git
+[submodule "dqm"]
+	path = dqm
+	url = git@github.com:tsiplenkov/dqm.git
+[submodule "dqm_task_monitor"]
+	path = dqm_task_monitor
+	url = git@github.com:tsiplenkov/dqm_task_monitor.git
+[submodule "dqm_task_manager"]
+	path = dqm_task_manager
+	url = git@github.com:tsiplenkov/dqm_task_manager.git
