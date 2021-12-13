@@ -18,7 +18,7 @@ git submodule update
 
 * Api Gateway ([Kong](https://konghq.com/kong/)) with DB (Postgres)
 * Auth service (Django-restframework) with DB (Postgres)
-* Task manager service (FastApi + celery) with AMQP DB (Redis)
+* Task manager service (FastApi + celery) with MQ DB (Redis) and with monitoring (celery flover)
     * Task PageSpeed service (Celery + httpx)
     * Task crawler service (Celery + httpx)
     * Task API Test service (Celery + httpx)
@@ -29,7 +29,7 @@ git submodule update
 
 1. User registered and auth on **auth service**
 2. User create task for testing his service (for example PageSpeed test)
-    1. **Task manager service** create request for testing to AMQP DB
+    1. **Task manager service** create request for testing to MQ DB
     2. (Optionaly) Create **temporary proxy server** to client stage 
     3. **PageSpeed worker** get task from AMQP DB and create request to Google PageSpeed API for testing
     4. **PageSpeed wokrer** get response from Google PageSpeed API and send report to **Report manager service**
@@ -38,7 +38,7 @@ git submodule update
 ### What should be done
 
 * Api Gateway
-    * ~~Proxy as subdomain~~
+    * Proxy as subdomain
     * Proxy as url path
 * Auth service
     * Fix swagger docs view with proxy path Api gateway
