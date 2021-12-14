@@ -209,38 +209,11 @@ services:
       - task-queue-db
     networks:
       - dqm-net
-    # ports:
-    #   - "5008:8000"
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://task-manager:8000"]
-    #   interval: 5s
-    #   timeout: 2s
-    #   retries: 15
     environment:
       TZ: "UTC"
       RESULT_BACKEND: "redis://task-queue-db:6379"
       BROKER_URI: "redis://task-queue-db:6379/0"
       PAGESPEED_API_KEY: "TOP_secret_key"
-      PAGESPEED_API_URL: "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
-
-
-  #######################################
-  # Celery: PageSpeed Task Worker PageSpeed
-  #######################################
-  task-worker-pagespeed:
-    image: dqm/task-worker-pagespeed:0.1
-    build:
-      context: $PWD/dqm_task_worker_pagespeed
-    restart: unless-stopped
-    depends_on:
-      - task-queue-db
-    networks:
-      - dqm-net
-    environment:
-      TZ: "UTC"
-      RESULT_BACKEND: "redis://task-queue-db:6379"
-      BROKER_URI: "redis://task-queue-db:6379/0"
-      PAGESPEED_API_KEY: "AIzaSyB-8wqtUVwtUVxUtczFjgW5RTeW-Lhic00"
       PAGESPEED_API_URL: "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
       REPORT_URL: "http://report-manager:8000/pagespeed/"
 
