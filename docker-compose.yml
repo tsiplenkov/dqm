@@ -17,7 +17,7 @@ services:
     environment:
       POSTGRES_USER: kong
       POSTGRES_DB: kong
-      POSTGRES_PASSWORD: Pa$$w0rDD
+      POSTGRES_PASSWORD: 54MLngFqFYHW3LjvZJws
     ports:
       - "5432"
     healthcheck:
@@ -38,7 +38,7 @@ services:
     environment:
       KONG_PG_HOST: kong-database
       KONG_PG_USER: kong
-      KONG_PG_PASSWORD: Pa$$w0rDD
+      KONG_PG_PASSWORD: 54MLngFqFYHW3LjvZJws
     links:
       - kong-database
     depends_on:
@@ -55,7 +55,7 @@ services:
     environment:
       KONG_PG_HOST: kong-database
       KONG_PG_USER: kong
-      KONG_PG_PASSWORD: Pa$$w0rDD
+      KONG_PG_PASSWORD: 54MLngFqFYHW3LjvZJws
       KONG_PROXY_LISTEN: 0.0.0.0:8000
       KONG_PROXY_LISTEN_SSL: 0.0.0.0:8443
       KONG_ADMIN_LISTEN: 0.0.0.0:8001
@@ -86,19 +86,19 @@ services:
   #######################################
   # Django RestFramework: Auth service
   #######################################
-  drf-auth:
-    image: dqm/drf-auth:0.1
+  auth-service:
+    image: dqm/auth-service:0.1
     build:
-      context: $PWD/dqm_drf_auth
+      context: $PWD/dqm_auth_service
     restart: unless-stopped
     depends_on:
-      - drf-auth-database
+      - auth-database
     networks:
       - dqm-net
     ports:
       - "5005:8000"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://drf-auth:8000"]
+      test: ["CMD", "curl", "-f", "http://auth-service:8000"]
       interval: 5s
       timeout: 2s
       retries: 15
@@ -107,15 +107,15 @@ services:
       DJANGO_SUPERUSER_EMAIL: admin@admin.com
       DJANGO_SUPERUSER_PASSWORD: admin1234
       PROD_DB_ENGINE: 'django.db.backends.postgresql'
-      PROD_DB_HOST: drf-auth-database
+      PROD_DB_HOST: auth-database
       PROD_DB_NAME: drf
       PROD_DB_USER: drf
-      DB_PASSWORD: Pa$$w0rDD
+      DB_PASSWORD: 54MLngFqFYHW3LjvZJws
 
   #######################################
-  # Postgres: The database used by drf-auth
+  # Postgres: auth-service DB
   #######################################
-  drf-auth-database:
+  auth-database:
     image: postgres:11
     restart: unless-stopped
     networks:
@@ -123,7 +123,7 @@ services:
     environment:
       POSTGRES_USER: drf
       POSTGRES_DB: drf
-      POSTGRES_PASSWORD: Pa$$w0rDD
+      POSTGRES_PASSWORD: 54MLngFqFYHW3LjvZJws
     ports:
       - "5432"
     healthcheck:
@@ -158,7 +158,7 @@ services:
 
 
   #######################################
-  # Redis: Task queue DB
+  # Redis: Task message queue DB
   #######################################
   task-queue-db:
     image: redis
@@ -220,5 +220,70 @@ services:
       TZ: "UTC"
       RESULT_BACKEND: "redis://task-queue-db:6379"
       BROKER_URI: "redis://task-queue-db:6379/0"
-      PAGESPEED_API_KEY: "YOUR_SECRET_KEY"
+      PAGESPEED_API_KEY: "TOP_secret_key"
       PAGESPEED_API_URL: "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
+
+
+  #######################################
+  # Celery: PageSpeed Task Worker PageSpeed
+  #######################################
+  task-worker-pagespeed:
+    image: dqm/task-worker-pagespeed:0.1
+    build:
+      context: $PWD/dqm_task_worker_pagespeed
+    restart: unless-stopped
+    depends_on:
+      - task-queue-db
+    networks:
+      - dqm-net
+    environment:
+      TZ: "UTC"
+      RESULT_BACKEND: "redis://task-queue-db:6379"
+      BROKER_URI: "redis://task-queue-db:6379/0"
+      PAGESPEED_API_KEY: "AIzaSyB-8wqtUVwtUVxUtczFjgW5RTeW-Lhic00"
+      PAGESPEED_API_URL: "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
+      REPORT_URL: "http://report-manager:8000/pagespeed/"
+
+  #######################################
+  # FastAPI: Report Manager service
+  #######################################
+  report-manager:
+    image: dqm/report-manager:0.1
+    build:
+      context: $PWD/dqm_report_manager
+    restart: unless-stopped
+    depends_on:
+      - report-db
+    networks:
+      - dqm-net
+    ports:
+      - "5008:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://report-manager:8000"]
+      interval: 5s
+      timeout: 2s
+      retries: 15
+    environment:
+      TZ: "UTC"
+      MONGO_URL: "mongodb://report-db:27017"
+
+  #######################################
+  # MongoDB: Report DB
+  #######################################
+  report-db:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: txqCtN0pKblKM7UgMR5h
+    restart: unless-stopped
+    networks:
+      - dqm-net
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongo", "report-db:27017/test", "--quiet"]
+      interval: 10s
+      timeout: 10s
+      retries: 15
+    environment:
+      TZ: "UTC"
