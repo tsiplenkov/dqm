@@ -13,3 +13,6 @@
 [submodule "dqm_task_manager"]
 	path = dqm_task_manager
 	url = git@github.com:tsiplenkov/dqm_task_manager.git
+[submodule "dqm_report_manager"]
+	path = dqm_report_manager
+	url = git@github.com:tsiplenkov/dqm_report_manager.git

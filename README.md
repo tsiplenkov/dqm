@@ -20,8 +20,8 @@ git submodule update
 * Auth service (Django-restframework) with DB (Postgres)
 * Task manager service (FastApi + celery) with MQ DB (Redis) and with monitoring (celery flover)
     * Task PageSpeed service (Celery + httpx)
-    * Task crawler service (Celery + httpx)
-    * Task API Test service (Celery + httpx)
+    * Task crawler service 
+    * Task API Test service (Celery + schemathesis)
 * Temporary proxy server (Nginx)
 * Report Manager service (FastApi) with DB (MongoDB)
 
@@ -53,4 +53,4 @@ git submodule update
     * Check non-200 status code
 * Api testing task worker
 * Proxy service
-* Report manager service
+* ~~Report manager service~~
