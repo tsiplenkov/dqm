@@ -49,7 +49,8 @@ git submodule update
     * ~~Create task~~
     * ~~Get task status~~
 * PageSpeed task worker
-    * ~~Send request to Google PageSpeed API~~
+    * ~~Get Google PageSpeed API report~~
+    * ~~Send report to report manager~~
     * Check Exeption
 * Web Crawler task worker
     * Check non-200 status code
