@@ -2,6 +2,8 @@
 
 **This is boilerplate project. Code may contain bugs and vulnerabilities. Not recommended for use in a production stage.**
 
+**This is alpha version, someone features/services may not work correctly. Please check [todo-list](https://github.com/tsiplenkov/dqm#what-should-be-done)
+
 Deployment quality monitoring - selfhost-based service for improve deploy quality web-services.
 
 > This project use [git submodule](https://git-scm.com/docs/git-submodule) for join all services in single repo. For clone all services run:
@@ -42,7 +44,7 @@ git submodule update
     * Proxy as url path
 * Auth service
     * Fix swagger docs view with proxy path Api gateway
-    * Integrate auth to Api gateway
+    * Integrate auth to Kong Api gateway
 * ~~Task manager~~
     * ~~Create task~~
     * ~~Get task status~~
@@ -53,4 +55,5 @@ git submodule update
     * Check non-200 status code
 * Api testing task worker
 * Proxy service
-* ~~Report manager service~~
+* Report manager service
+    * ~~Create and get Pagespeed Report~~
